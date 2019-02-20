@@ -18,8 +18,8 @@ public class EnergySeed : MonoBehaviour
     #endregion
 
 
-    private void OnTriggerEnter2D(Collider2D coll)
-    {
+     void OnTriggerEnter2D(Collider2D coll)
+        {
         if(OnEnergySeedGathered != null)
         {
             OnEnergySeedGathered(this);

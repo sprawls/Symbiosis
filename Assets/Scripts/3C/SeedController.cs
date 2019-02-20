@@ -7,6 +7,7 @@ public class SeedController : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private AnimationCurve _visualWidthCurve;
+    [SerializeField] private Transform _tipTransform;
 
     [Header("Movement")]
     [SerializeField] private float _speed = 0.5f;
@@ -23,7 +24,7 @@ public class SeedController : MonoBehaviour
     [Header("Boost")]
     [SerializeField] private float _boostTimePerBoost = 2f;
     [SerializeField] private AnimationCurve _boostTimeCurve;
-    [SerializeField] private float _boostSpeedMultipler = 2f;
+    [SerializeField] private float _boostSpeedMultipler = 1.5f;
     [SerializeField] private float _boostAngularSpeedMultipler = 2f;
     private float _boostTime;
     private float _boostSlowTime = 1f;
@@ -36,6 +37,7 @@ public class SeedController : MonoBehaviour
     private float _minDistanceFowNewPoint = 0.1f;
 
     //Movement
+    private Rigidbody2D _rigidBody2D;
     private Vector2 _direction = Vector2.up;
     private float _currentSpeed;
     private float _angleSpeedRegular;
@@ -64,6 +66,7 @@ public class SeedController : MonoBehaviour
 
     void Start()
     {
+        _rigidBody2D = GetComponent<Rigidbody2D>();
         _positions = new List<Vector3>(5000);
         _lastPosition = transform.position;
         _currentLifetime = _startLifetime;
@@ -116,7 +119,11 @@ public class SeedController : MonoBehaviour
         }
 
         //Debug.Log("Direction :" + _direction + "     angle speed : " + angleSpeedRegular + "      Opposite : " + angleSpeedOpposite);
-        transform.position += (Vector3) (_direction * _currentSpeed * Time.deltaTime);
+        Vector3 newPos = transform.position + (Vector3)(_direction * _currentSpeed * Time.deltaTime);
+        _rigidBody2D.MovePosition(newPos);
+
+        _tipTransform.position = _lastPosition;
+        _tipTransform.LookAt(transform);
     }
 
     private void CalculateCurrentSpeed()
@@ -126,6 +133,7 @@ public class SeedController : MonoBehaviour
         if(_boostTime > 0)
         {
             speed *= (1 + _boostTimeCurve.Evaluate(_boostTime / _boostSlowTime)) * _boostSpeedMultipler;
+            _boostTime -= Time.deltaTime;
         }
 
         _currentSpeed = (Input.GetKey(KeyCode.W)) ? speed * 2f : speed;
@@ -141,7 +149,7 @@ public class SeedController : MonoBehaviour
         _angleSpeedOpposite *= (1 + _boostTimeCurve.Evaluate(_boostTime / _boostSlowTime)) * _boostAngularSpeedMultipler;
     }
 
-    #endregion
+    #endregion 
 
     private void AddLifetime(float time)
     {
@@ -175,7 +183,7 @@ public class SeedController : MonoBehaviour
     private void SetTipWidth(float wantedWidth)
     {
         Keyframe[] frames = _lineRenderer.widthCurve.keys;
-        frames[1].value = wantedWidth;
+        frames[2].value = wantedWidth;
         _lineRenderer.widthCurve = new AnimationCurve(frames);
     }
 
