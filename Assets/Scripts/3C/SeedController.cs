@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SeedController : MonoBehaviour
 {
+    public static event Action<SeedController> OnSeedLifetimeExpired;
+
     [Header("Visuals")]
     [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private AnimationCurve _visualWidthCurve;
     [SerializeField] private Transform _tipTransform;
 
     [Header("Movement")]
+    [SerializeField] private bool _isControlled = true;
     [SerializeField] private float _speed = 0.5f;
     [SerializeField] private float _angleSpeed = 90f;
     [SerializeField] private float _angleSpeedMultiplerNoInputs = 0.25f;
@@ -43,11 +46,21 @@ public class SeedController : MonoBehaviour
     private float _angleSpeedRegular;
     private float _angleSpeedOpposite;
 
+    //Inputs
+    private bool _goingLeft = false;
+    private bool _goingRight = false;
+    private bool _goingForward = false;
+
+
     #region ACCESSORS
 
     public bool CanMove
     {
         get { return _currentLifetime > 0; }
+    }
+
+    public bool IsControlled {
+        get { return _isControlled; }
     }
 
     #endregion
@@ -75,6 +88,7 @@ public class SeedController : MonoBehaviour
 
     void Update()
     {
+        UpdateInputs();
         UpdateLifetime();
         UpdatePlayer();
         UpdateLineRendererPoint();
@@ -82,6 +96,7 @@ public class SeedController : MonoBehaviour
 
     private void UpdateLifetime()
     {
+        float prevLifetime = _currentLifetime;
         _currentLifetime = Mathf.Max(0, _currentLifetime - Time.deltaTime);
         if(_currentLifetime > 0)
         {
@@ -89,7 +104,18 @@ public class SeedController : MonoBehaviour
         }
         else
         {
+            if(prevLifetime > 0) {
+                if (OnSeedLifetimeExpired != null) OnSeedLifetimeExpired(this);
+            }
             SetTipWidth(_visualWidthCurve.Evaluate(0f));
+        }
+    }
+
+    private void UpdateInputs() {
+        if(IsControlled) {
+            _goingLeft = Input.GetKey(KeyCode.A);
+            _goingRight = Input.GetKey(KeyCode.D);
+            _goingForward = Input.GetKey(KeyCode.W);
         }
     }
 
@@ -99,15 +125,12 @@ public class SeedController : MonoBehaviour
 
         CalculateCurrentSpeed();
         CalculateCurrentAngularSpeed();
-
-        bool goingLeft = Input.GetKey(KeyCode.A);
-        bool goingRight = Input.GetKey(KeyCode.D);
  
-        if (goingLeft && !goingRight)
+        if (_goingLeft && !_goingRight)
         {
             _direction = _direction.Rotate(_direction.x > 0 ? _angleSpeedOpposite : _angleSpeedRegular);
         }
-        else if (!goingLeft && goingRight)
+        else if (!_goingLeft && _goingRight)
         {
             _direction = _direction.Rotate(_direction.x < 0 ? -_angleSpeedOpposite : -_angleSpeedRegular);
         }
@@ -136,7 +159,7 @@ public class SeedController : MonoBehaviour
             _boostTime -= Time.deltaTime;
         }
 
-        _currentSpeed = (Input.GetKey(KeyCode.W)) ? speed * 2f : speed;
+        _currentSpeed = (_goingForward) ? speed * 2f : speed;
     }
 
     private void CalculateCurrentAngularSpeed()
