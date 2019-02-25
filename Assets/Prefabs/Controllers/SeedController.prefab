@@ -152,6 +152,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _tipTransform: {fileID: 1317270231245489602}
+  _playerType: 0
   _speed: 0.75
   _angleSpeed: 35
   _angleSpeedMultiplerNoInputs: 0.5

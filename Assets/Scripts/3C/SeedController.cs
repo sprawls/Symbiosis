@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class SeedController : MonoBehaviour
 {
+    public enum PlayerTypeEnum {
+        Player1,
+        Player2,
+        AI
+    }
+
     public static event Action<SeedController> OnSeedLifetimeExpired;
 
     [Header("Visuals")]
@@ -12,7 +18,7 @@ public class SeedController : MonoBehaviour
     [SerializeField] private Transform _tipTransform;
 
     [Header("Movement")]
-    [SerializeField] private bool _isControlled = true;
+    [SerializeField] private PlayerTypeEnum _playerType;
     [SerializeField] private float _speed = 0.5f;
     [SerializeField] private float _angleSpeed = 90f;
     [SerializeField] private float _angleSpeedMultiplerNoInputs = 0.25f;
@@ -59,8 +65,12 @@ public class SeedController : MonoBehaviour
         get { return _currentLifetime > 0; }
     }
 
-    public bool IsControlled {
-        get { return _isControlled; }
+    public bool IsControlledByMainPlayer {
+        get { return _playerType == PlayerTypeEnum.Player1; }
+    }
+
+    public PlayerTypeEnum PlayerType {
+        get { return _playerType; }
     }
 
     #endregion
@@ -112,7 +122,7 @@ public class SeedController : MonoBehaviour
     }
 
     private void UpdateInputs() {
-        if(IsControlled) {
+        if(IsControlledByMainPlayer) {
             _goingLeft = Input.GetKey(KeyCode.A);
             _goingRight = Input.GetKey(KeyCode.D);
             _goingForward = Input.GetKey(KeyCode.W);
