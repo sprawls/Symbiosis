@@ -38,12 +38,13 @@ public class SeedController : MonoBehaviour
     private float _boostTime;
     private float _boostSlowTime = 1f;
 
-
+    [Header("Branches")]
+    [SerializeField] private GameObject _branchPrefab;
 
     //Line Renderer
     private List<Vector3> _positions;
     private Vector3 _lastPosition;
-    private float _minDistanceFowNewPoint = 0.1f;
+    private float _minDistanceFowNewPoint = 0.02f;
 
     //Movement
     private Rigidbody2D _rigidBody2D;
@@ -102,6 +103,10 @@ public class SeedController : MonoBehaviour
         UpdateLifetime();
         UpdatePlayer();
         UpdateLineRendererPoint();
+
+        if(Input.GetKeyDown(KeyCode.E)) {
+            SpawnBranch();
+        }
     }
 
     private void UpdateLifetime()
@@ -222,6 +227,13 @@ public class SeedController : MonoBehaviour
 
     #endregion
 
+    #region Branches
+
+    private void SpawnBranch() {
+        GameObject spawnedBranch = Instantiate(_branchPrefab, transform);
+    }
+
+    #endregion
 
     #region Callback
 

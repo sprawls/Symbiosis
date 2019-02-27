@@ -153,7 +153,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _tipTransform: {fileID: 1317270231245489602}
   _playerType: 0
-  _speed: 0.75
+  _speed: 0.95
   _angleSpeed: 35
   _angleSpeedMultiplerNoInputs: 0.5
   _maxRotationAngle: 140
@@ -205,7 +205,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _startLifetime: 20
+  _startLifetime: 10
   _boostTimePerBoost: 3
   _boostTimeCurve:
     serializedVersion: 2
@@ -231,8 +231,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _boostSpeedMultipler: 1.4
+  _boostSpeedMultipler: 1.15
   _boostAngularSpeedMultipler: 1.75
+  _branchPrefab: {fileID: 5566975204070865084, guid: 2d3169e8ee6001e41adae9fb25f1473e,
+    type: 3}
 --- !u!120 &4758268023041872585
 LineRenderer:
   m_ObjectHideFlags: 0
