@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ParticleSystem))]
-public class ParticleToLineRenderer : MonoBehaviour
-{
+public class ParticleToLineRenderer : MonoBehaviour {
     private class LineRendererWithPositions {
 
         public LineRendererWithPositions(LineRenderer renderer, Vector3 startingPos) {
@@ -15,7 +14,7 @@ public class ParticleToLineRenderer : MonoBehaviour
 
         public void AddPosition(Vector3 pos) {
             float dist = Vector3.Distance(pos, _positions[_positions.Count - 1]);
-            if(dist > _minDistanceFowNewPoint) {
+            if (dist > _minDistanceFowNewPoint) {
                 AddPointToRenderer(pos);
             }
         }
@@ -36,28 +35,34 @@ public class ParticleToLineRenderer : MonoBehaviour
     private ParticleSystem _ps;
     private List<LineRendererWithPositions> _lrs;
 
-    void Awake()
-    {
+    private float _sizeMultiplier = 1;
+
+    void Awake() {
         _ps = GetComponent<ParticleSystem>();
         _lrs = new List<LineRendererWithPositions>(_ps.maxParticles);
     }
 
-    void Update()
-    {    
+    void Update() {
         //Alloc but w/e. Simpler this way since we store only the positions
         ParticleSystem.Particle[] _particles = new ParticleSystem.Particle[_ps.particleCount];
         _ps.GetParticles(_particles);
 
-        for(int i = 0; i < _particles.Length; ++i) {
+        for (int i = 0; i < _particles.Length; ++i) {
             ParticleSystem.Particle p = _particles[i];
-            if(i >= _lrs.Count) {
+            if (i >= _lrs.Count) {
                 GameObject newGo = Instantiate(LineRendererPrefab, transform);
                 LineRenderer newRenderer = newGo.GetComponent<LineRenderer>();
                 _lrs.Add(new LineRendererWithPositions(newRenderer, p.position));
+
+                newRenderer.widthMultiplier = _sizeMultiplier;
             } else {
                 _lrs[i].AddPosition(p.position);
             }
         }
-        
+
+    }
+
+    public void SetSizeMultiplier(float multiplier) {
+        _sizeMultiplier = multiplier;
     }
 }

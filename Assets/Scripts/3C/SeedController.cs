@@ -231,6 +231,13 @@ public class SeedController : MonoBehaviour
 
     private void SpawnBranch() {
         GameObject spawnedBranch = Instantiate(_branchPrefab, transform);
+        spawnedBranch.transform.position += new Vector3(0f, 0f, 3f);
+        ParticleToLineRenderer p2lr = spawnedBranch.GetComponent<ParticleToLineRenderer>();
+        if (p2lr != null) {
+            float testValue = 1f - ((1f - Mathf.Clamp(_currentLifetime / _startLifetime, 0, 1)) * 0.75f);
+            Debug.Log(testValue);
+            p2lr.SetSizeMultiplier(testValue);
+        }
     }
 
     #endregion
