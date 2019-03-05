@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using Random = UnityEngine.Random;
 
 public class SeedController : MonoBehaviour
 {
@@ -223,6 +226,8 @@ public class SeedController : MonoBehaviour
         Keyframe[] frames = _lineRenderer.widthCurve.keys;
         frames[2].value = wantedWidth;
         _lineRenderer.widthCurve = new AnimationCurve(frames);
+
+        _tipTransform.localScale = Vector3.one * wantedWidth;
     }
 
     #endregion
@@ -235,8 +240,23 @@ public class SeedController : MonoBehaviour
         ParticleToLineRenderer p2lr = spawnedBranch.GetComponent<ParticleToLineRenderer>();
         if (p2lr != null) {
             float testValue = 1f - ((1f - Mathf.Clamp(_currentLifetime / _startLifetime, 0, 1)) * 0.75f);
-            Debug.Log(testValue);
             p2lr.SetSizeMultiplier(testValue);
+        }
+    }
+
+    private IEnumerator SpawnBranchesFromSeed() {
+        SpawnBranch();
+        yield return new WaitForSeconds(Random.Range(0.05f, 0.15f));
+        SpawnBranch();
+
+        if (Random.Range(0f, 1f) > 0.5f) {
+            yield return new WaitForSeconds(Random.Range(0.2f, 0.5f));
+            SpawnBranch();
+        }
+
+        if (Random.Range(0f, 1f) > 0.5f) {
+            yield return new WaitForSeconds(Random.Range(0.35f, 1f));
+            SpawnBranch();
         }
     }
 
@@ -250,6 +270,7 @@ public class SeedController : MonoBehaviour
         {
             AddLifetime(seed.AmountEnergy);
             AddBoost();
+            StartCoroutine(SpawnBranchesFromSeed());
         }
     }
 
