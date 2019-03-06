@@ -77,6 +77,12 @@ public class SeedController : MonoBehaviour
         get { return _playerType; }
     }
 
+    public float LifetimeRatio {
+        get {
+            return _currentLifetime / _startLifetime;
+        }
+    }
+
     #endregion
 
     #region LIFECYCLE
@@ -118,7 +124,7 @@ public class SeedController : MonoBehaviour
         _currentLifetime = Mathf.Max(0, _currentLifetime - Time.deltaTime);
         if(_currentLifetime > 0)
         {
-            SetTipWidth(_visualWidthCurve.Evaluate(_currentLifetime / _startLifetime));
+            SetTipWidth(_visualWidthCurve.Evaluate(LifetimeRatio));
         }
         else
         {
