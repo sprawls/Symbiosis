@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
@@ -22,12 +23,12 @@ public class CameraController : MonoBehaviour
 
     private Vector3 _curVelocity;
     private float _curSizeVelocity;
-    private Camera _camera;
+    private CinemachineVirtualCamera _camera;
     private CameraBehavior _currentBehavior;
 
     private void OnEnable() {
         SeedController.OnSeedLifetimeExpired += Callback_OnSeedLifetimeExpired;
-        _camera = GetComponent<Camera>();
+        _camera = GetComponent<CinemachineVirtualCamera>();
     }
 
     private void OnDisable() {
@@ -63,13 +64,13 @@ public class CameraController : MonoBehaviour
         //Vector3 targetPosition = new Vector3(0f, _target.position.y / 2f, -_zoomDistance - (_target.position.y * _unzoomDistancePerHeightUnit));
         Vector3 targetPosition = new Vector3(0f, _target.position.y / 2f, transform.position.z);
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _curVelocity, _unzoomSmoothTime);
-        _camera.orthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, 5 + (_target.position.y * _unzoomDistancePerHeightUnit), ref _curSizeVelocity, _unzoomSmoothTime);
+        _camera.m_Lens.OrthographicSize = Mathf.SmoothDamp(_camera.m_Lens.OrthographicSize, 5 + (_target.position.y * _unzoomDistancePerHeightUnit), ref _curSizeVelocity, _unzoomSmoothTime);
     }
 
     #region Callback
 
     private void Callback_OnSeedLifetimeExpired(SeedController seedController) {
-        if(seedController != null && seedController.IsControlledByMainPlayer) {
+        if(seedController != null && seedController.IsControlledByPlayer) {
             SetBehavior(CameraBehavior.Unzoom);
         }
     }

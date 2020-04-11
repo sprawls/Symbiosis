@@ -69,8 +69,8 @@ public class SeedController : MonoBehaviour
         get { return _currentLifetime > 0; }
     }
 
-    public bool IsControlledByMainPlayer {
-        get { return _playerType == PlayerTypeEnum.Player1; }
+    public bool IsControlledByPlayer {
+        get { return _playerType != PlayerTypeEnum.AI; }
     }
 
     public PlayerTypeEnum PlayerType {
@@ -136,10 +136,17 @@ public class SeedController : MonoBehaviour
     }
 
     private void UpdateInputs() {
-        if(IsControlledByMainPlayer) {
-            _goingLeft = Input.GetKey(KeyCode.A);
-            _goingRight = Input.GetKey(KeyCode.D);
-            _goingForward = Input.GetKey(KeyCode.W);
+        if(IsControlledByPlayer) {
+            if(PlayerType == PlayerTypeEnum.Player1) {
+                _goingLeft = Input.GetKey(KeyCode.A);
+                _goingRight = Input.GetKey(KeyCode.D);
+                _goingForward = Input.GetKey(KeyCode.W);
+            } else {
+                _goingLeft = Input.GetKey(KeyCode.LeftArrow);
+                _goingRight = Input.GetKey(KeyCode.RightArrow);
+                _goingForward = Input.GetKey(KeyCode.UpArrow);
+            }
+
         }
     }
 
