@@ -37,6 +37,7 @@ public class SeedController : MonoBehaviour
     private float _currentLifetime;
 
     [Header("Boost")]
+    [SerializeField] private AnimationCurve _sharedBoostEffiencyBasedOnRange;
     [SerializeField] private float _boostTimePerBoost = 2f;
     [SerializeField] private AnimationCurve _boostTimeCurve;
     [SerializeField] private float _boostSpeedMultipler = 1.5f;
@@ -45,7 +46,7 @@ public class SeedController : MonoBehaviour
     private float _boostSlowTime = 1f;
 
     [Header("Proximity Decay")]
-    [SerializeField] private float _proximityRange = 5f;
+    [SerializeField] private float _proximityRangeForDecay = 5f;
     [SerializeField] private SeedController _linkedSeedController;
     [SerializeField] private float _decayMultiplierDefault = 1f;
     [SerializeField] private float _decayMultiplierWhenNearby = 0.5f;
@@ -101,6 +102,10 @@ public class SeedController : MonoBehaviour
         get { return _lastPosition; }
     }
 
+    public float GetDistanceToLinkedController() {
+        return Vector3.Distance(_linkedSeedController.LastPosition, LastPosition);
+    }
+
     #endregion
 
     #region LIFECYCLE
@@ -132,6 +137,7 @@ public class SeedController : MonoBehaviour
         _currentLifetime = _startLifetime;
         AddPointToRenderer(transform.position);
 
+        _direction = _direction.Rotate(Random.Range(-15,15));
     }
 
     public void UpdateSeed()
@@ -151,8 +157,8 @@ public class SeedController : MonoBehaviour
         _decayMultiplier = _decayMultiplierDefault;
 
         if(_linkedSeedController != null) {
-            float dist = Vector3.Distance(_linkedSeedController.LastPosition, LastPosition);
-            if(dist < _proximityRange) {
+            float dist = GetDistanceToLinkedController();
+            if(dist < _proximityRangeForDecay) {
                 _animator.SetBool("Nearby", true);
                 if (LifetimeRatio < _linkedSeedController.LifetimeRatio) {
                     _decayMultiplier = _decayMultiplierWhenNearby;
@@ -167,7 +173,8 @@ public class SeedController : MonoBehaviour
     private void UpdateLifetime()
     {
         float prevLifetime = _currentLifetime;
-        _currentLifetime = Mathf.Max(0, _currentLifetime - (Time.deltaTime * _decayMultiplier));
+        float speedMultiplier = _goingForward ? 1f : 0.75f;
+        _currentLifetime = Mathf.Max(0, _currentLifetime - (Time.deltaTime * _decayMultiplier * speedMultiplier));
 
         if(_currentLifetime > 0)
         {
@@ -234,7 +241,10 @@ public class SeedController : MonoBehaviour
         if(_boostTime > 0)
         {
             speed *= (1 + _boostTimeCurve.Evaluate(_boostTime / _boostSlowTime)) * _boostSpeedMultipler;
+
             _boostTime -= Time.deltaTime;
+            if (_boostTime > _boostTimePerBoost)
+                _boostTime -= Time.deltaTime;
         }
 
         _currentSpeed = (_goingForward) ? speed * 2f : speed;
@@ -257,9 +267,9 @@ public class SeedController : MonoBehaviour
         _currentLifetime += time;
     }
 
-    private void AddBoost()
+    private void AddBoost(float efficiency)
     {
-        _boostTime += _boostTimePerBoost;
+        _boostTime += _boostTimePerBoost * efficiency;
     }
 
     #region Visuals
@@ -304,17 +314,20 @@ public class SeedController : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnBranchesFromSeed() {
+    private IEnumerator SpawnBranchesFromSeed(float efficiency) {
         SpawnBranch();
         yield return new WaitForSeconds(Random.Range(0.05f, 0.15f));
-        SpawnBranch();
 
-        if (Random.Range(0f, 1f) > 0.5f) {
+        if (Random.Range(0f, 1f) > 1-efficiency) {
+            SpawnBranch();
+        }
+
+        if (Random.Range(0f, 1f) > 1.5f - efficiency) {
             yield return new WaitForSeconds(Random.Range(0.2f, 0.5f));
             SpawnBranch();
         }
 
-        if (Random.Range(0f, 1f) > 0.5f) {
+        if (Random.Range(0f, 1f) > 1.5f - efficiency) {
             yield return new WaitForSeconds(Random.Range(0.35f, 1f));
             SpawnBranch();
         }
@@ -328,9 +341,13 @@ public class SeedController : MonoBehaviour
     {
         if(seed != null)
         {
-            AddLifetime(seed.AmountEnergy);
-            AddBoost();
-            StartCoroutine(SpawnBranchesFromSeed());
+            float efficiency = 1f;
+            if(seed.Type != _playerType) {
+                efficiency = Mathf.Clamp(_sharedBoostEffiencyBasedOnRange.Evaluate(GetDistanceToLinkedController()), 0f, 1f);
+            }
+            AddLifetime(seed.AmountEnergy * efficiency);
+            AddBoost(efficiency);
+            StartCoroutine(SpawnBranchesFromSeed(efficiency));
         }
     }
 

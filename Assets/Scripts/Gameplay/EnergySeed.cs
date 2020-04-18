@@ -17,6 +17,10 @@ public class EnergySeed : MonoBehaviour
         get { return _energyToGive; }
     }
 
+    public SeedController.PlayerTypeEnum Type {
+        get { return _seedType; }
+    }
+
     #endregion
 
 

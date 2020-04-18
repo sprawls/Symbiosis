@@ -44,9 +44,12 @@ public class SeedSpawner : MonoBehaviour {
 
     private void SpawnSeedsForPlayer(SeedController seedController, bool left) {
         //todo : un algo cool pour spawner de seeds
-        Vector3 startPos = seedController.transform.position;
+        Vector3 startPos = seedController.transform.position + Vector3.up;
         Vector3 side = left ? Vector3.left : Vector3.right;
         Vector3 up = Vector3.up;
+
+        SpawnSeed(seedController, startPos);
+
         for (int i = 0; i < _amountSeeds; ++i) {
             up += Vector3.up * Random.Range(_heightBetweenSeedsMinMax.x, _heightBetweenSeedsMinMax.y);
             float ratio = (float)i / (float)_amountSeeds;
