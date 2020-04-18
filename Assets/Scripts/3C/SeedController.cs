@@ -19,6 +19,7 @@ public class SeedController : MonoBehaviour
     [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private AnimationCurve _visualWidthCurve;
     [SerializeField] private Transform _tipTransform;
+    [SerializeField] private Color _seedColor;
 
     [Header("Movement")]
     [SerializeField] private PlayerTypeEnum _playerType;
@@ -56,6 +57,9 @@ public class SeedController : MonoBehaviour
     private float _angleSpeedRegular;
     private float _angleSpeedOpposite;
 
+    //Decay
+    private float _decayMultiplier = 1f;
+
     //Inputs
     private bool _goingLeft = false;
     private bool _goingRight = false;
@@ -63,6 +67,10 @@ public class SeedController : MonoBehaviour
 
 
     #region ACCESSORS
+
+    public Color SeedColor {
+        get { return _seedColor; }
+    }
 
     public bool CanMove
     {
@@ -97,16 +105,21 @@ public class SeedController : MonoBehaviour
         EnergySeed.OnEnergySeedGathered -= Callback_OnEnergySeedGathered;
     }
 
-    void Start()
+    void Awake()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
         _positions = new List<Vector3>(5000);
+    }
+
+    public void StartSeed(Vector3 startPos) {
+        transform.position = startPos;
+        _positions.Clear();
         _lastPosition = transform.position;
         _currentLifetime = _startLifetime;
         AddPointToRenderer(transform.position);
     }
 
-    void Update()
+    public void UpdateSeed()
     {
         UpdateInputs();
         UpdateLifetime();
@@ -121,7 +134,8 @@ public class SeedController : MonoBehaviour
     private void UpdateLifetime()
     {
         float prevLifetime = _currentLifetime;
-        _currentLifetime = Mathf.Max(0, _currentLifetime - Time.deltaTime);
+        _currentLifetime = Mathf.Max(0, _currentLifetime - (Time.deltaTime * _decayMultiplier));
+
         if(_currentLifetime > 0)
         {
             SetTipWidth(_visualWidthCurve.Evaluate(LifetimeRatio));
@@ -177,7 +191,7 @@ public class SeedController : MonoBehaviour
         _rigidBody2D.MovePosition(newPos);
 
         _tipTransform.position = _lastPosition;
-        _tipTransform.LookAt(transform);
+        _tipTransform.LookAt(transform, _tipTransform.up);
     }
 
     private void CalculateCurrentSpeed()

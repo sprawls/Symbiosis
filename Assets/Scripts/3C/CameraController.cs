@@ -27,12 +27,14 @@ public class CameraController : MonoBehaviour
     private CameraBehavior _currentBehavior;
 
     private void OnEnable() {
-        SeedController.OnSeedLifetimeExpired += Callback_OnSeedLifetimeExpired;
         _camera = GetComponent<CinemachineVirtualCamera>();
+
+        GameManager.OnGameStopped += Callback_OnGameStopped;
     }
 
     private void OnDisable() {
-        SeedController.OnSeedLifetimeExpired -= Callback_OnSeedLifetimeExpired;
+        GameManager.OnGameStopped -= Callback_OnGameStopped;
+
     }
 
     private void Update()
@@ -69,10 +71,8 @@ public class CameraController : MonoBehaviour
 
     #region Callback
 
-    private void Callback_OnSeedLifetimeExpired(SeedController seedController) {
-        if(seedController != null && seedController.IsControlledByPlayer) {
-            SetBehavior(CameraBehavior.Unzoom);
-        }
+    private void Callback_OnGameStopped() {
+        SetBehavior(CameraBehavior.Unzoom);
     }
 
     #endregion
