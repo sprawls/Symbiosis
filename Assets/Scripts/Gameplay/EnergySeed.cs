@@ -6,6 +6,7 @@ public class EnergySeed : MonoBehaviour
 {
     public static event Action<EnergySeed> OnEnergySeedGathered;
 
+    [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private float _energyToGive = 5f;
     [SerializeField] private SeedController.PlayerTypeEnum _seedType;
 
@@ -18,6 +19,11 @@ public class EnergySeed : MonoBehaviour
 
     #endregion
 
+
+    public void Setup(SeedController.PlayerTypeEnum type, Color col) {
+        _renderer.color = col;
+        _seedType = type;
+    }
 
     void OnTriggerEnter2D(Collider2D coll)
     {

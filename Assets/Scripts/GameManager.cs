@@ -7,9 +7,9 @@ public class GameManager : MonoBehaviour
     public static event Action OnGameStarted;
     public static event Action OnGameStopped;
 
-    public SeedController _seedController1;
-    public SeedController _seedController2;
-    public SeedSpawner _spawner;
+    [SerializeField] private SeedController _seedController1;
+    [SerializeField] private SeedController _seedController2;
+    [SerializeField] private SeedSpawner _spawner;
 
     private bool _playing = false;
 

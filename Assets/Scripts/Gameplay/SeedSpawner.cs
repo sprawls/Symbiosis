@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class SeedSpawner : MonoBehaviour {
 
+    [SerializeField] private GameObject _seedPrefab;
+
+    [Header("Seed Spawning Data")]
+    [SerializeField] private int            _amountSeeds = 100;
+    [SerializeField] private AnimationCurve _spawnCurvePosition;
+    [SerializeField] private AnimationCurve _spawnCurveWidth;
+    [SerializeField] private Vector2        _heightBetweenSeedsMinMax;
+
     private List<EnergySeed> _spawnedSeeds;
 
     private void OnEnable() {
@@ -18,8 +26,8 @@ public class SeedSpawner : MonoBehaviour {
     public void SpawnAllSeeds(SeedController seed1, SeedController seed2) {
         RemoveSpawnedSeeds();
 
-        SpawnSeedForPlayer(seed1, true);
-        SpawnSeedForPlayer(seed2, false);
+        SpawnSeedsForPlayer(seed1, true);
+        SpawnSeedsForPlayer(seed2, false);
     }
 
     private void RemoveSpawnedSeeds() {
@@ -34,8 +42,26 @@ public class SeedSpawner : MonoBehaviour {
 
     }
 
-    private void SpawnSeedForPlayer(SeedController seedController, bool left) {
+    private void SpawnSeedsForPlayer(SeedController seedController, bool left) {
+        //todo : un algo cool pour spawner de seeds
+        Vector3 startPos = seedController.transform.position;
+        Vector3 side = left ? Vector3.left : Vector3.right;
+        Vector3 up = Vector3.up;
+        for (int i = 0; i < _amountSeeds; ++i) {
+            up += Vector3.up * Random.Range(_heightBetweenSeedsMinMax.x, _heightBetweenSeedsMinMax.y);
+            float ratio = (float)i / (float)_amountSeeds;
+            float randomX = _spawnCurveWidth.Evaluate(ratio);
+            Vector3 pos = startPos + up + side * (_spawnCurvePosition.Evaluate(ratio) + Random.Range(-randomX, randomX/2f));
 
+            SpawnSeed(seedController, pos);
+        }
+    }
+
+    private void SpawnSeed(SeedController seedController, Vector3 pos) {
+        EnergySeed spawnedSeed = Instantiate(_seedPrefab, transform).GetComponent<EnergySeed>();
+        spawnedSeed.transform.position = pos;
+
+        spawnedSeed.Setup(seedController.PlayerType, seedController.SeedColor);
     }
 
 

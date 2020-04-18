@@ -20,6 +20,8 @@ public class SeedController : MonoBehaviour
     [SerializeField] private AnimationCurve _visualWidthCurve;
     [SerializeField] private Transform _tipTransform;
     [SerializeField] private Color _seedColor;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private SpriteRenderer[] _rendererToColor;
 
     [Header("Movement")]
     [SerializeField] private PlayerTypeEnum _playerType;
@@ -42,6 +44,13 @@ public class SeedController : MonoBehaviour
     private float _boostTime;
     private float _boostSlowTime = 1f;
 
+    [Header("Proximity Decay")]
+    [SerializeField] private float _proximityRange = 5f;
+    [SerializeField] private SeedController _linkedSeedController;
+    [SerializeField] private float _decayMultiplierDefault = 1f;
+    [SerializeField] private float _decayMultiplierWhenNearby = 0.5f;
+    private float _decayMultiplier;
+
     [Header("Branches")]
     [SerializeField] private GameObject _branchPrefab;
 
@@ -56,9 +65,6 @@ public class SeedController : MonoBehaviour
     private float _currentSpeed;
     private float _angleSpeedRegular;
     private float _angleSpeedOpposite;
-
-    //Decay
-    private float _decayMultiplier = 1f;
 
     //Inputs
     private bool _goingLeft = false;
@@ -91,6 +97,10 @@ public class SeedController : MonoBehaviour
         }
     }
 
+    public Vector3 LastPosition {
+        get { return _lastPosition; }
+    }
+
     #endregion
 
     #region LIFECYCLE
@@ -109,6 +119,10 @@ public class SeedController : MonoBehaviour
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
         _positions = new List<Vector3>(5000);
+
+        foreach(SpriteRenderer spr in _rendererToColor) {
+            spr.color = _seedColor;
+        }
     }
 
     public void StartSeed(Vector3 startPos) {
@@ -117,11 +131,13 @@ public class SeedController : MonoBehaviour
         _lastPosition = transform.position;
         _currentLifetime = _startLifetime;
         AddPointToRenderer(transform.position);
+
     }
 
     public void UpdateSeed()
     {
         UpdateInputs();
+        UpdateProximityDecay();
         UpdateLifetime();
         UpdatePlayer();
         UpdateLineRendererPoint();
@@ -129,6 +145,23 @@ public class SeedController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E)) {
             SpawnBranch();
         }
+    }
+
+    private void UpdateProximityDecay() {
+        _decayMultiplier = _decayMultiplierDefault;
+
+        if(_linkedSeedController != null) {
+            float dist = Vector3.Distance(_linkedSeedController.LastPosition, LastPosition);
+            if(dist < _proximityRange) {
+                _animator.SetBool("Nearby", true);
+                if (LifetimeRatio < _linkedSeedController.LifetimeRatio) {
+                    _decayMultiplier = _decayMultiplierWhenNearby;
+                }
+            } else {
+                _animator.SetBool("Nearby", false);
+            }
+        }
+
     }
 
     private void UpdateLifetime()

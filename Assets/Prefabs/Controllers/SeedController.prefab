@@ -156,6 +156,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _tipTransform: {fileID: 1317270231245489602}
+  _seedColor: {r: 0, g: 0, b: 0, a: 0}
+  _animator: {fileID: 7075110871377429957}
+  _rendererToColor:
+  - {fileID: 1777019822045690364}
   _playerType: 0
   _speed: 0.95
   _angleSpeed: 35
@@ -237,6 +241,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   _boostSpeedMultipler: 1.15
   _boostAngularSpeedMultipler: 1.75
+  _proximityRange: 5
+  _linkedSeedController: {fileID: 0}
+  _decayMultiplierDefault: 1
+  _decayMultiplierWhenNearby: 0.5
   _branchPrefab: {fileID: 5566975204070865084, guid: 2d3169e8ee6001e41adae9fb25f1473e,
     type: 3}
 --- !u!120 &4758268023041872585
@@ -455,7 +463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7316234156825392861
 Transform:
   m_ObjectHideFlags: 0
@@ -464,7 +472,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6337858035877783300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.20000003}
+  m_LocalPosition: {x: 0, y: 0, z: 0.2}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_Children: []
   m_Father: {fileID: 1978025403992401574}
