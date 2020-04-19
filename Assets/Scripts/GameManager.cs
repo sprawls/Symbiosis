@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void Update() {
+        _seedController1.UpdateProximityDecay();
+        _seedController2.UpdateProximityDecay();
+
         _seedController1.UpdateSeed();
         _seedController2.UpdateSeed();
         

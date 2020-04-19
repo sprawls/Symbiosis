@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 3417870487547379493}
-  _energyToGive: 3.5
+  _energyToGive: 2.5
   _seedType: 0
 --- !u!58 &5748782841363365123
 CircleCollider2D:

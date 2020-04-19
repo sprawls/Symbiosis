@@ -785,7 +785,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -881,7 +881,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1000,7 +1000,7 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 0.6
-      value: 0
+      value: 0.5
       inSlope: -0.01785588
       outSlope: -0.01785588
       tangentMode: 0
@@ -1015,7 +1015,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.3
+      value: 0.5
       inSlope: -0
       outSlope: -0
       tangentMode: 0
@@ -1024,7 +1024,7 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 0.2
-      value: 0.3
+      value: 0.5
       inSlope: 0.0064386837
       outSlope: 0.0064386837
       tangentMode: 0
@@ -1517,22 +1517,22 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.15
-      value: -5
-      inSlope: 19.580965
-      outSlope: 19.580965
+      time: 0.1
+      value: -2.5
+      inSlope: 70.3798
+      outSlope: 70.3798
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.24596737
+      outWeight: 0.09367859
     - serializedVersion: 3
-      time: 0.8
-      value: 35
-      inSlope: 0.043179046
-      outSlope: 0.043179046
+      time: 0.75
+      value: 30
+      inSlope: 25.114496
+      outSlope: 25.114496
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33639452
+      inWeight: 0.15613098
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1561,7 +1561,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _heightBetweenSeedsMinMax: {x: 3, y: 6.5}
+  _heightBetweenSeedsMinMax: {x: 3, y: 7}
 --- !u!4 &1421373248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8321426599059309498, guid: 51de3b9f803292d418ff39779b6070c0,
@@ -2074,6 +2074,31 @@ PrefabInstance:
       propertyPath: _linkedSeedController
       value: 
       objectReference: {fileID: 253410242}
+    - target: {fileID: 8321426599059309497, guid: 51de3b9f803292d418ff39779b6070c0,
+        type: 3}
+      propertyPath: _startLifetime
+      value: 12.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321426599059309497, guid: 51de3b9f803292d418ff39779b6070c0,
+        type: 3}
+      propertyPath: _sharedBoostEffiencyBasedOnRange.m_Curve.Array.data[1].outSlope
+      value: -0.11111111
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321426599059309497, guid: 51de3b9f803292d418ff39779b6070c0,
+        type: 3}
+      propertyPath: _sharedBoostEffiencyBasedOnRange.m_Curve.Array.data[2].time
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321426599059309497, guid: 51de3b9f803292d418ff39779b6070c0,
+        type: 3}
+      propertyPath: _sharedBoostEffiencyBasedOnRange.m_Curve.Array.data[2].inSlope
+      value: -0.11111111
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321426599059309497, guid: 51de3b9f803292d418ff39779b6070c0,
+        type: 3}
+      propertyPath: _sharedBoostEffiencyBasedOnRange.m_Curve.Array.data[1].time
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8321426599059309498, guid: 51de3b9f803292d418ff39779b6070c0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2183,6 +2208,31 @@ PrefabInstance:
       propertyPath: _linkedSeedController
       value: 
       objectReference: {fileID: 1661301999}
+    - target: {fileID: 4758268023041872584, guid: 21753ddcda695f448807d4a9237dc7d4,
+        type: 3}
+      propertyPath: _startLifetime
+      value: 12.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758268023041872584, guid: 21753ddcda695f448807d4a9237dc7d4,
+        type: 3}
+      propertyPath: _sharedBoostEffiencyBasedOnRange.m_Curve.Array.data[1].outSlope
+      value: -0.11111111
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758268023041872584, guid: 21753ddcda695f448807d4a9237dc7d4,
+        type: 3}
+      propertyPath: _sharedBoostEffiencyBasedOnRange.m_Curve.Array.data[2].time
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758268023041872584, guid: 21753ddcda695f448807d4a9237dc7d4,
+        type: 3}
+      propertyPath: _sharedBoostEffiencyBasedOnRange.m_Curve.Array.data[2].inSlope
+      value: -0.11111111
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758268023041872584, guid: 21753ddcda695f448807d4a9237dc7d4,
+        type: 3}
+      propertyPath: _sharedBoostEffiencyBasedOnRange.m_Curve.Array.data[1].time
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4758268023041872587, guid: 21753ddcda695f448807d4a9237dc7d4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2342,7 +2392,7 @@ PrefabInstance:
     - target: {fileID: 5335649843176636309, guid: 3a45e06403dbed448b1a76f1dc01a07a,
         type: 3}
       propertyPath: _zoomDistancePerHeightUnit
-      value: 0.35
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5335649843176636311, guid: 3a45e06403dbed448b1a76f1dc01a07a,
         type: 3}

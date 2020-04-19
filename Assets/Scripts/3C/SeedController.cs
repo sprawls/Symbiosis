@@ -145,7 +145,6 @@ public class SeedController : MonoBehaviour
     public void UpdateSeed()
     {
         UpdateInputs();
-        UpdateProximityDecay();
         UpdateLifetime();
         UpdatePlayer();
         UpdateLineRendererPoint();
@@ -155,14 +154,14 @@ public class SeedController : MonoBehaviour
         }
     }
 
-    private void UpdateProximityDecay() {
+    public void UpdateProximityDecay() {
         _decayMultiplier = _decayMultiplierDefault;
 
         if(_linkedSeedController != null) {
             float dist = GetDistanceToLinkedController();
             if(dist < _proximityRangeForDecay) {
                 _animator.SetBool("Nearby", true);
-                if (LifetimeRatio < _linkedSeedController.LifetimeRatio) {
+                if (LifetimeRatio <= _linkedSeedController.LifetimeRatio) {
                     _decayMultiplier = _decayMultiplierWhenNearby;
                 }
             } else {
@@ -178,7 +177,10 @@ public class SeedController : MonoBehaviour
         float speedMultiplier = _goingForward ? 1f : 0.75f;
         _currentLifetime = Mathf.Max(0, _currentLifetime - (Time.deltaTime * _decayMultiplier * speedMultiplier));
 
-        if(_currentLifetime > 0)
+        //if (_playerType == PlayerTypeEnum.Player1)
+            //Debug.Log(String.Format("Decay : {0}", _decayMultiplier));
+
+        if (_currentLifetime > 0)
         {
             SetTipWidth(_visualWidthCurve.Evaluate(LifetimeRatio));
         }
@@ -234,6 +236,9 @@ public class SeedController : MonoBehaviour
 
         _tipTransform.position = _lastPosition;
         _tipTransform.LookAt(transform, _tipTransform.up);
+
+        //if(_playerType == PlayerTypeEnum.Player1)
+        //Debug.Log(String.Format("Lifetime : {0}     BoostTime : {1}     Decay : {2}", _currentLifetime, _boostTime, _decayMultiplier));
     }
 
     private void CalculateCurrentSpeed()
@@ -246,7 +251,7 @@ public class SeedController : MonoBehaviour
 
             _boostTime -= Time.deltaTime;
             if (_boostTime > _boostTimePerBoost)
-                _boostTime -= Time.deltaTime * 2f;
+                _boostTime -= Time.deltaTime * 1f;
         }
 
         _currentSpeed = (_goingForward) ? speed * 2f : speed;
@@ -266,7 +271,7 @@ public class SeedController : MonoBehaviour
 
     private void AddLifetime(float time)
     {
-        _currentLifetime += time;
+        _currentLifetime = Mathf.Min(_currentLifetime + time, _startLifetime);
     }
 
     private void AddBoost(float efficiency)
