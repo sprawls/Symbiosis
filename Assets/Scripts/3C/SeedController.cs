@@ -128,6 +128,8 @@ public class SeedController : MonoBehaviour
         foreach(SpriteRenderer spr in _rendererToColor) {
             spr.color = _seedColor;
         }
+        _lineRenderer.material.color = _seedColor;
+
     }
 
     public void StartSeed(Vector3 startPos) {
@@ -244,7 +246,7 @@ public class SeedController : MonoBehaviour
 
             _boostTime -= Time.deltaTime;
             if (_boostTime > _boostTimePerBoost)
-                _boostTime -= Time.deltaTime;
+                _boostTime -= Time.deltaTime * 2f;
         }
 
         _currentSpeed = (_goingForward) ? speed * 2f : speed;

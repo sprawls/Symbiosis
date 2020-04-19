@@ -1001,11 +1001,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.6
       value: 0
-      inSlope: -4.115561
-      outSlope: -4.115561
+      inSlope: -0.01785588
+      outSlope: -0.01785588
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.057059366
+      inWeight: 0.34763473
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1015,7 +1015,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.3
       inSlope: -0
       outSlope: -0
       tangentMode: 0
@@ -1023,8 +1023,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 1
     - serializedVersion: 3
-      time: 0.5
-      value: 0
+      time: 0.2
+      value: 0.3
       inSlope: 0.0064386837
       outSlope: 0.0064386837
       tangentMode: 0
@@ -1034,11 +1034,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.85
       value: 1
-      inSlope: 3.6957836
-      outSlope: 3.6957836
+      inSlope: 0.0203302
+      outSlope: 0.0203302
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.097130775
+      inWeight: 0.22909789
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1069,6 +1069,7 @@ GameObject:
   - component: {fileID: 724706953}
   - component: {fileID: 724706952}
   - component: {fileID: 724706951}
+  - component: {fileID: 724706954}
   m_Layer: 0
   m_Name: RealCamera
   m_TagString: Untagged
@@ -1167,6 +1168,22 @@ Transform:
   m_Father: {fileID: 173963795}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &724706954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724706950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f1da63591dc67445b632e87664be9fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 703b245f98d111d418d988ba74eefbce, type: 3}
+  pixelSizeX: 1
+  pixelSizeY: 1
+  lockXY: 1
 --- !u!1 &781512294
 GameObject:
   m_ObjectHideFlags: 0
@@ -1486,7 +1503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _seedPrefab: {fileID: 8055054566046849882, guid: dd435f71f5411704c84efaef32ea7048,
     type: 3}
-  _amountSeeds: 50
+  _amountSeeds: 60
   _spawnCurvePosition:
     serializedVersion: 2
     m_Curve:
@@ -1502,20 +1519,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.15
       value: -5
-      inSlope: 0.99999994
-      outSlope: 0.99999994
+      inSlope: 19.580965
+      outSlope: 19.580965
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.24596737
     - serializedVersion: 3
-      time: 1
-      value: 25
-      inSlope: 1
-      outSlope: 1
+      time: 0.8
+      value: 35
+      inSlope: 0.043179046
+      outSlope: 0.043179046
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.33639452
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1527,24 +1544,24 @@ MonoBehaviour:
       time: 0
       value: 5
       inSlope: 19.989893
-      outSlope: 19.989893
-      tangentMode: 0
+      outSlope: 15
+      tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 1
     - serializedVersion: 3
       time: 1
-      value: 25
-      inSlope: 19.934212
+      value: 20
+      inSlope: 15
       outSlope: 19.934212
-      tangentMode: 0
+      tangentMode: 69
       weightedMode: 0
       inWeight: 1
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _heightBetweenSeedsMinMax: {x: 2.5, y: 6}
+  _heightBetweenSeedsMinMax: {x: 3, y: 6.5}
 --- !u!4 &1421373248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8321426599059309498, guid: 51de3b9f803292d418ff39779b6070c0,
@@ -2221,6 +2238,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8013140782273136764, guid: 21753ddcda695f448807d4a9237dc7d4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21753ddcda695f448807d4a9237dc7d4, type: 3}
 --- !u!1001 &5335649843280660459

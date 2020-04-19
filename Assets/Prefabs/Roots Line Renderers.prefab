@@ -45,10 +45,11 @@ LineRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0924bd25676fd704890a24a14fdff5ee, type: 2}
+  - {fileID: 2100000, guid: 7df334869efbb8b4ead4058438196831, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -56,6 +57,7 @@ LineRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -86,12 +88,12 @@ LineRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.6796092
-        inSlope: -1.0842358
-        outSlope: -1.0842358
+        value: 0
+        inSlope: -2.1860473
+        outSlope: -2.1860473
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.14814812
+        inWeight: 0.06595743
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
