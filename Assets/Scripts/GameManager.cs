@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -46,6 +47,9 @@ public class GameManager : MonoBehaviour
         _seedController1.UpdateSeed();
         _seedController2.UpdateSeed();
         
+        if(Input.GetKeyDown(KeyCode.R)) {
+            SceneManager.LoadScene(0);
+        }
     }
 
 
